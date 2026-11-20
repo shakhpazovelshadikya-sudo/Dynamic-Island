@@ -1,0 +1,28 @@
+Зависимости проекта DynamicIsland (C# / WPF)
+=============================================
+
+В C# аналог requirements.txt - это файл DynamicIsland.csproj (секция PackageReference).
+Два NuGet-пакета: Microsoft.Data.Sqlite (чтение базы уведомлений Windows) и NAudio (общая громкость Windows —
+ползунок на вкладке «Главная»). Они подтянутся сами при первой сборке (dotnet restore), нужен интернет.
+
+Нужно установить:
+  1. Windows 10 (1809+) или Windows 11
+  2. .NET 8 SDK  ->  https://dotnet.microsoft.com/download/dotnet/8.0
+
+Что используется из коробки (подтягивается автоматически через csproj):
+  - TargetFramework: net8.0-windows10.0.19041.0
+  - WPF (UseWPF=true)
+  - Windows.Media.Control (WinRT API) - данные о текущем треке и управление плеером
+  - Windows Forms (UseWindowsForms=true) - только ради NotifyIcon (иконка в трее), входит в SDK
+  - System.Text.Json / HttpClient (входят в .NET) - погода с open-meteo.com (без ключа, нужен интернет)
+  - Microsoft.Win32.Registry - автозапуск (HKCU\Software\Microsoft\Windows\CurrentVersion\Run)
+  - user32.dll / kernel32.dll (P/Invoke) - скрытие из Alt+Tab, заряд батареи
+
+Команды:
+  dotnet restore     - подтянуть зависимости (выполняется автоматически при сборке)
+  dotnet run         - запустить
+  dotnet publish -c Release -r win-x64 --self-contained false -o publish   - собрать exe
+
+Если позже понадобится сторонний пакет (например Serilog для логов):
+  dotnet add package Serilog
+Он автоматически добавится в DynamicIsland.csproj как <PackageReference>.

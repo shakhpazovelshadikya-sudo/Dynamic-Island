@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>DynamicIsland</AssemblyName>
+    <Version>1.0.0</Version>
+    <ApplicationIcon>assets/DynamicIsland.ico</ApplicationIcon>
+    <RootNamespace>DynamicIsland</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets/DynamicIsland.ico" LogicalName="DynamicIsland.ico" />
+    <Resource Include="assets/DynamicIsland.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Чтение базы уведомлений Windows (обычное приложение не может использовать UserNotificationListener) -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.*" />
+    <!-- Общая громкость Windows (Core Audio) для ползунка на вкладке «Главная» -->
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
+  <!-- WinForms нужен только ради NotifyIcon (трей); убираем его глобальные using, чтобы не было конфликтов с WPF -->
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+    <Using Include="System.IO" />
+    <Using Include="System.Threading" />
+    <Using Include="System.Net.Http" />
+  </ItemGroup>
+
+</Project>
